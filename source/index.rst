@@ -40,7 +40,7 @@ Hi 大家好，我是 Caffreyfans。最近在公司又学习了下 **FreeRTOS**�
 .. |内存管理| image:: _static/memory.png
 .. _内存管理: memory/index.html
 
-.. |任务同步| image:: _static/Synchronization.png
+.. |任务同步| image:: _static/synchronization.png
 .. _任务同步: Synchronization/index.html
 
 .. |定时器| image:: _static/timer.png
