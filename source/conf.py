@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'WiKi'
+project = 'Caffreyfans'
 copyright = '2016-2021, Caffreyfans'
 author = 'Caffreyfans'
 

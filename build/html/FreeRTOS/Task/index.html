@@ -11,8 +11,8 @@
   
 
   
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
 
   
   
@@ -24,23 +24,23 @@
 
   
   <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
+    <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/translations.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
     
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
     <link rel="next" title="内存管理" href="../Memory/index.html" />
-    <link rel="prev" title="FreeRTOS" href="../index.html" /> 
+    <link rel="prev" title="FreeRTOS" href="../../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -54,7 +54,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Caffreyfans
+            <a href="../../index.html" class="icon icon-home"> Caffreyfans
           
 
           
@@ -67,7 +67,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -105,7 +105,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Caffreyfans</a>
+          <a href="../../index.html">Caffreyfans</a>
         
       </nav>
 
@@ -136,7 +136,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>任务</li>
     
@@ -144,7 +144,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/Task/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/FreeRTOS/Task/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -240,7 +240,7 @@
 </div>
 <p>这里并不对相关 API 如何使用进行说明，主要想说明任务的这个概念。我们的想法还是 CPU 能执行 <code class="docutils literal notranslate"><span class="pre">foo</span></code> 和 <code class="docutils literal notranslate"><span class="pre">foo2</span></code> 里面的代码段，但是在 RTOS 里，它会把我们想要执行的代码段封装成了“任务”，为什么要这样封装，直接执行不好吗？解释这个问题我们需要简单了解下 RTOS 的实现原理。</p>
 <p>我们都知道中断比普通用户函数优先级高，中断来了能被硬件第一时间检测到。MCU 里面有个叫“晶振”的东西，它能定时稳定的产生脉冲信号，就能给 RTOS 提供稳定的时钟信号。在 FreeRTOS 里就能检测到这个 Systick 中断，FreeRTOS 里通过 configTICK_RATE_HZ 来确定一次 Systick 中断产生的间隔。比如 configTICK_RATE_HZ = 1000，那么就是 1ms 生成一次 Systick 中断。FreeRTOS 每一次 Systick 中断就会在其 ISR 里面执行任务的调度算法。FreeRTOS 一般常用的调度算法是 抢占式分时算法，抢占式就是有优先级的概念，分时就是有时间片的概念</p>
-<img alt="../_images/1.png" src="../_images/1.png" />
+<img alt="../../_images/1.png" src="../../_images/1.png" />
 </div>
 
 
@@ -250,7 +250,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="../Memory/index.html" class="btn btn-neutral float-right" title="内存管理" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../index.html" class="btn btn-neutral float-left" title="FreeRTOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../index.html" class="btn btn-neutral float-left" title="FreeRTOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
