@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Caffreyfans'
+project = 'Vikings'
 copyright = '2016-2021, Caffreyfans'
 author = 'Caffreyfans'
 
