@@ -32,6 +32,10 @@ Linux 网络编程下地址占用问题
 
         /* Initialize socket structure */
         bzero((char *)&serv_addr, sizeof(serv_addr));
+        serv_addr.sin_family = AF_INET;
+        serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        serv_addr.sin_port = htons(5010);
+        
         int flag;
         if (setsockopt(listenfd, SOL_SOCKET, SO_RESUEADDR, &flag, sizeof(flag))) {
             perror("Set socket option failed");
@@ -90,6 +94,11 @@ socket 是支持地址复用和端口复用的，这里我们只需要打开地�
         /* Create socket */
         listenfd = socket(AF_INET, SOCK_STREAM, 0);
 
+        /* Initialize socket structure */
+        bzero((char *)&serv_addr, sizeof(serv_addr));
+        serv_addr.sin_family = AF_INET;
+        serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        serv_addr.sin_port = htons(5010);
         if (listenfd < 0) {
                 perror("ERROR opening socket");
                 exit(1);
