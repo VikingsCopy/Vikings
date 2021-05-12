@@ -1,6 +1,7 @@
+*************
 FreeRTOS
 *************
-
+=============
 序言
 =============
 我觉得对 FreeRTOS 的理解首先需要对 FreeRTOS 的背景了解开始切入比较合适。
@@ -23,6 +24,7 @@ FreeRTOS
 
 .. [#f1] ISR: `Interrupt Service Routines <https://en.wikipedia.org/wiki/Interrupt_handler>`__.
 
+==============
 正文
 ==============
 
