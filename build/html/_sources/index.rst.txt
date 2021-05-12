@@ -10,7 +10,7 @@ Vikings 瞄准优秀的技术学习、知识原理的讲解。做一个纯粹的
 
 Vikings 指的是以前的北欧维京海盗。本站就是一艘知识的海盗船，知识就是黄金，跟海盗喜欢掠夺黄金的特点一拍即合，所以取名为 Vikings。本站的品味正如你所看到的这样，如果你觉得不错，也希望有共识的朋友参与到本站的建设。
 
-有任何问题或者想加入 Vikings 组织请联系
+有任何问题或者想加入 Vikings 组织请联系 
 
 .. _Write to me: Caffreyfans@163.com
 
@@ -18,3 +18,4 @@ Vikings 指的是以前的北欧维京海盗。本站就是一艘知识的海盗
    :hidden:
    
    FreeRTOS <FreeRTOS/index>
+   Network  <Network/index>
