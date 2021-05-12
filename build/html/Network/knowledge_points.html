@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>FreeRTOS &mdash; Vikings 1.0 文档</title>
+  <title>网络中比较有用的知识点 &mdash; Vikings 1.0 文档</title>
   
 
   
@@ -88,8 +88,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../FreeRTOS/index.html">FreeRTOS</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Network</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="add_already_used.html">Linux 网络编程下地址占用问题</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">FreeRTOS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">网络中比较有用的知识点</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">网络中比较有用的知识点</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">字符串清空</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -142,7 +144,7 @@
         
           <li><a href="index.html">Network</a> &raquo;</li>
         
-      <li>FreeRTOS</li>
+      <li>网络中比较有用的知识点</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -161,13 +163,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="freertos">
-<h1>FreeRTOS<a class="headerlink" href="#freertos" title="永久链接至标题">¶</a></h1>
-</div>
-<div class="section" id="id1">
+  <div class="section" id="id1">
 <h1>网络中比较有用的知识点<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
-<p># 字符串清空
-在网络编程中有这么一种情况，服务器每次在接收缓冲区接收了数据后应“清空缓冲区”以备下一次数据接收。这里的清空是指缓冲区第一个数据单元置为 ‘0’，我们从客户端接收到的数据为字符串的话就应该用这种清零方式。当然我们把这个缓冲区请零也可以，但是只置第一位数据明显效率更高。网络编程中有一个现成函数可供使用</p>
+<div class="section" id="id2">
+<h2>字符串清空<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>在网络编程中有这么一种情况，服务器每次在接收缓冲区接收了数据后应“清空缓冲区”以备下一次数据接收。这里的清空是指缓冲区第一个数据单元置为 ‘0’，我们从客户端接收到的数据为字符串的话就应该用这种清零方式。当然我们把这个缓冲区请零也可以，但是只置第一位数据明显效率更高。网络编程中有一个现成函数可供使用</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/***************************************************************</span>
 <span class="cm"> * The bzero() function erases the data in the n bytes of the</span>
 <span class="cm"> * memory starting at the location pointed to by s, by writing</span>
@@ -184,6 +184,7 @@
 </pre></div>
 </div>
 <p>总结：能用现成函数完成的就不要自己去封装什么函数了，大家统一使用，方便阅读。在服务器接收字符串的情况下就用它清空缓冲区就行了。</p>
+</div>
 </div>
 
 
