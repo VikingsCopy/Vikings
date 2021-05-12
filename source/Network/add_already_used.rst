@@ -1,155 +1,77 @@
 Linux 网络编程下地址占用问题
-================================
 
-问题描述
---------------
+================================
 
 自己写的一个 demo 程序遇到一个奇怪的问题是关于端口占用问题的，先看下源码。
 
 .. code:: c
 
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <unistd.h>
-    #include <netdb.h>
-    #include <netinet/in.h>
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <unistd.h>
+	#include <netdb.h>
+	#include <netinet/in.h>
+	#include <string.h>
+	int main(int argc, char *argv[]) {
+		int listenfd, connfd;
+		char buffer[256];
+		struct sockaddr_in serv_addr;
+		char *str = "Receive your message --- server";
+		
+		/* Create socket */
+		listenfd = socket(AF_INET, SOCK_STREAM, 0);
+		if (listenfd < 0) {
+			perror("ERROR opening socket");
+			exit(1);
+		}
 
-    #include <string.h>
-
-    int main(int argc, char *argv[]) {
-    	int listenfd, connfd;
-    	char buffer[256];
-    	struct sockaddr_in serv_addr;
-
-    	char *str = "Receive your message --- server";
-    	/* First call to socket() function */
-    	/* Create socket */
-     	listenfd = socket(AF_INET, SOCK_STREAM, 0);
-
-    	if (listenfd < 0) {
-    		perror("ERROR opening socket");
-    		exit(1);
-    	}
-
-    	/* Initialize socket structure */
-    	bzero((char *)&serv_addr, sizeof(serv_addr));
-
-    	serv_addr.sin_family = AF_INET;
-    	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    	serv_addr.sin_port = htons(5010);
-
-    	/* Now bind the host address using bind() call. */
-    	if (bind(listenfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0 ) {
-    		perror("ERROR on binding");
-    		exit(1);
-    	}
-
-    	listen(listenfd, 5);
-    	while (1) {
-    		connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
-    		bzero(buffer, sizeof(buffer));	
-    		int n = read(connfd, buffer, sizeof(buffer));
-
-    		if (n > 0) {
-    			printf("Receive from remote:\n%s\n", buffer);
-    		}
-    		write(connfd, str, strlen(str));
-    	        close(connfd);	
-    	}
-    	return 0;
-    }
-
-运行结果如下：
-
-.. image:: _static/addr_already_used/recv.jpg
-
-代码能成功运行并接收到数据，但是在程序关闭后马上再次运行的时候就会报出``ERROR on binding: Address already in use``。
-
-看下图：
-
-.. image:: _static/addr_already_used/error.jpg
-
-后来查找资料发现分析其原因是套接字资源没释放的原因，当该程序异常退出时 socket 资源并没有立马被释放，而是进入了 TIME_WAIT STATE, 又于代码中又没有设置地址复用，所以就报出了这个错误。要解决这个问题总结有三种方式，分别如下：
-
-打开地址复用功能
--------------------
-
-socket 是支持地址复用和端口复用的，这里我们只需要打开地址复用即可
-
-.. code:: c
-
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <unistd.h>
-    #include <netdb.h>
-    #include <netinet/in.h>
-
-    #include <string.h>
-
-    int main(int argc, char *argv[]) {
-    	int listenfd, connfd;
-    	char buffer[256];
-    	struct sockaddr_in serv_addr;
-
-    	char *str = "Receive your message --- server";
-    	/* First call to socket() function */
-    	/* Create socket */
-     	listenfd = socket(AF_INET, SOCK_STREAM, 0);
-
-    	if (listenfd < 0) {
-    		perror("ERROR opening socket");
-    		exit(1);
-    	}
-
-    	/* Initialize socket structure */
-    	bzero((char *)&serv_addr, sizeof(serv_addr));
-
-    	serv_addr.sin_family = AF_INET;
-    	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    	serv_addr.sin_port = htons(5010);
-
-		/* Open address reuse */
+		/* Initialize socket structure */
+		bzero((char *)&serv_addr, sizeof(serv_addr));
 		int flag;
 		if (setsockopt(listenfd, SOL_SOCKET, SO_RESUEADDR, &flag, sizeof(flag))) {
 			perror("Set socket option failed");
 		}
-    	/* Now bind the host address using bind() call. */
-    	if (bind(listenfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0 ) {
-    		perror("ERROR on binding");
-    		exit(1);
-    	}
+		
+		/* Now bind the host address using bind() call. */
+		if (bind(listenfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0 ) {
+			perror("ERROR on binding");
+			exit(1);
+		}
+		listen(listenfd, 5);
+		while (1) {
+			connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
+			bzero(buffer, sizeof(buffer));	
+			int n = read(connfd, buffer, sizeof(buffer));
+			if (n > 0) {
+				printf("Receive from remote:\n%s\n", buffer);
+			}
+			write(connfd, str, strlen(str));
+			close(connfd);	
+		}
+		return 0;
+	}
 
-    	listen(listenfd, 5);
-    	while (1) {
-    		connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
-    		bzero(buffer, sizeof(buffer));	
-    		int n = read(connfd, buffer, sizeof(buffer));
+程序是可以正常运行的，能从接收到客户端发过来的数据
 
-    		if (n > 0) {
-    			printf("Receive from remote:\n%s\n", buffer);
-    		}
-    		write(connfd, str, strlen(str));
-    	        close(connfd);	
-    	}
-    	return 0;
-    }
-
+.. image:: _static/addr_already_used/recv.jpg 
 
 捕获程序终止信号，主动关闭资源
 ---------------------------------
 
 假如我们关闭程序就是用的 `Ctrl + c` 这种方式，那么这会产生一个 `SIGINT` 信号到程序，那我们就在捕获到信号后主动关闭我们的资源就行了所以我们程序就可以这样改：
 
+.. image:: _static/addr_already_used/error.jpg
+
 .. code:: c
-
+	
     #include <stdio.h>
-    #include <stdlib.h>
-    #include <unistd.h>
-    #include <netdb.h>
-    #include <netinet/in.h>
+	#include <stdlib.h>
+	#include <unistd.h>
+	#include <netdb.h>
+	#include <netinet/in.h>
 	#include <signal.h>
-    #include <string.h>
-
+	#include <string.h>
+	
 	int listenfd = -1;
 	void on_sigint(int signum) {
 		if (listenfd > 0) {
@@ -158,17 +80,16 @@ socket 是支持地址复用和端口复用的，这里我们只需要打开地�
 		}
 		exit(0);
 	}
-    int main(int argc, char *argv[]) {
+
+	int main(int argc, char *argv[]) {
 		signal(SIGINT, on_sigint);
     	int listenfd, connfd;
     	char buffer[256];
     	struct sockaddr_in serv_addr;
-
     	char *str = "Receive your message --- server";
-    	/* First call to socket() function */
-    	/* Create socket */
-     	listenfd = socket(AF_INET, SOCK_STREAM, 0);
 
+    	/* Create socket */
+    	listenfd = socket(AF_INET, SOCK_STREAM, 0);
     	if (listenfd < 0) {
     		perror("ERROR opening socket");
     		exit(1);
@@ -176,7 +97,6 @@ socket 是支持地址复用和端口复用的，这里我们只需要打开地�
 
     	/* Initialize socket structure */
     	bzero((char *)&serv_addr, sizeof(serv_addr));
-
     	serv_addr.sin_family = AF_INET;
     	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     	serv_addr.sin_port = htons(5010);
@@ -188,19 +108,19 @@ socket 是支持地址复用和端口复用的，这里我们只需要打开地�
     	}
 
     	listen(listenfd, 5);
+
     	while (1) {
     		connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
     		bzero(buffer, sizeof(buffer));	
     		int n = read(connfd, buffer, sizeof(buffer));
-
     		if (n > 0) {
     			printf("Receive from remote:\n%s\n", buffer);
     		}
     		write(connfd, str, strlen(str));
-    	        close(connfd);	
+    	    	close(connfd);	
     	}
     	return 0;
-    }
+	}
 
 等待系统自动释放资源
 ------------------------
