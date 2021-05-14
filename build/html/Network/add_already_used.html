@@ -195,6 +195,10 @@
 
     <span class="cm">/* Initialize socket structure */</span>
     <span class="n">bzero</span><span class="p">((</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">serv_addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">serv_addr</span><span class="p">));</span>
+    <span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+    <span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">);</span>
+    <span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">5010</span><span class="p">);</span>
+
     <span class="kt">int</span> <span class="n">flag</span><span class="p">;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_RESUEADDR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">flag</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">flag</span><span class="p">)))</span> <span class="p">{</span>
         <span class="n">perror</span><span class="p">(</span><span class="s">&quot;Set socket option failed&quot;</span><span class="p">);</span>
@@ -246,6 +250,11 @@
     <span class="cm">/* Create socket */</span>
     <span class="n">listenfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">SOCK_STREAM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 
+    <span class="cm">/* Initialize socket structure */</span>
+    <span class="n">bzero</span><span class="p">((</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">serv_addr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">serv_addr</span><span class="p">));</span>
+    <span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_family</span> <span class="o">=</span> <span class="n">AF_INET</span><span class="p">;</span>
+    <span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span> <span class="o">=</span> <span class="n">htonl</span><span class="p">(</span><span class="n">INADDR_ANY</span><span class="p">);</span>
+    <span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_port</span> <span class="o">=</span> <span class="n">htons</span><span class="p">(</span><span class="mi">5010</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">listenfd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">perror</span><span class="p">(</span><span class="s">&quot;ERROR opening socket&quot;</span><span class="p">);</span>
             <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
