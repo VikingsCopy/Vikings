@@ -90,6 +90,8 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Git</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Git 使用比较有用的知识点</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id1">递归克隆</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">子模块添加</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">远程分支覆盖本地分支</a></li>
 </ul>
 </li>
 </ul>
@@ -176,8 +178,32 @@
 <p>克隆下载后发现引用的仓库并没有克隆下来，编译也依赖这个仓库里面的文件的话，我们编译肯定是不能通过的。</p>
 <img alt="../_images/direct_clone.jpg" src="../_images/direct_clone.jpg" />
 <p>所以我们需要把引用的仓库也克隆下来，需要加的参数就是 <code class="docutils literal notranslate"><span class="pre">--recursive</span></code>，现在看看加了参数的效果。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone --recursive https://github.com/FreeRTOS/coreHTTP.git
+</pre></div>
+</div>
 <img alt="Alternative text" src="../_images/recursive_clone.png" />
 <p>可以看到使用递归克隆后，引用的仓库也会被克隆下来，如果是引用仓库里面也有引用的话也一样。这样我们就能完全拉取我们所需要的所有资源。</p>
+</div>
+<div class="section" id="id2">
+<h2>子模块添加<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>首先明确子模块的作用，当你的仓库引用了其他仓库的之后，也希望子仓库能够拉取到最新远端代码，代码编写完成后，如果你直接提交代码，不进行任何操作会发现仓库里面有个空文件夹。效果见下图：</p>
+<img alt="../_images/submodule.jpg" src="../_images/submodule.jpg" />
+<img alt="../_images/github_test.jpg" src="../_images/github_test.jpg" />
+<p>这是子模块并没有链接到远程仓库地址造成的，所以需通过子模块添加命令让其正确链接</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git submodule add https://github.com/DaveGamble/cJSON.git cJSON <span class="c1"># git submodule add [url] [directory name]</span>
+</pre></div>
+</div>
+<p>这样子模块就知道该链向哪个仓库了(注意如果你仓库里已存在 cJSON, 请先执行 git rm cJSON 将其删除)，然后再把代码提交到仓库,在 github 上看看效果。</p>
+<img alt="../_images/added_submodule.jpg" src="../_images/added_submodule.jpg" />
+<p>原因就是没配置子模块</p>
+</div>
+<div class="section" id="id3">
+<h2>远程分支覆盖本地分支<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>这种情况一般是我们本地的代码改乱了，或者是本地分支跟远程分支冲突太大以至于不得不得放弃本地修改。这时候就可以用远程分支直接覆盖本地分支。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git fetch -all  <span class="c1"># 拉取所有分支</span>
+get reset --hard origin/master <span class="c1"># master 为你想同步的分支名</span>
+</pre></div>
+</div>
 </div>
 </div>
 
