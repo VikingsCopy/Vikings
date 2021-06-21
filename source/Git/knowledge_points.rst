@@ -59,3 +59,21 @@ Git 使用比较有用的知识点
 
     git fetch -all  # 拉取所有分支
     get reset --hard origin/master # master 为你想同步的分支名
+
+本地代码回滚
+----------------
+
+有时候我们提交了 commit，但是还未 push 出去。我们突然发现 commit message 不合适，想重新提交 commit。这时候我们需要使用 ``git reset`` ，
+
+.. code:: bash
+
+    git reset --soft HEAD^
+
+.. code:: bash
+
+    --soft # 只撤回 commit
+    --hard # 撤回 commit 与 track files
+    --mixed # 撤回 commit、track files 和 文件修改
+
+    get reset 最后的参数是提交记录点，HEAD^ 表示的就是上一次 commit。当然你如果想回滚到很久以前的 commit 就需要跟上它的 commit 号了
+
