@@ -3,7 +3,7 @@ Socket 应用设计建议
 ==========================
 
 .. list-table:: Socket design applications
-    :widths: 10 10 30
+    :widths: 10 10 10
     :header-rows: 1
     
     * - Recommendation
