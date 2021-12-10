@@ -55,11 +55,11 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 
-html_context = {
-    'css_files': [
-        '_static/theme_overrides.css',
-    ],
-}
+# html_context = {
+#     'css_files': [
+#         '_static/theme_overrides.css',
+#     ],
+# }
 
 language = 'zh_CN'
 
