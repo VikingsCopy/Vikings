@@ -18,3 +18,4 @@ Vikings 指的是以前的北欧维京海盗。本站就是一艘知识的海盗
    FreeRTOS <FreeRTOS/index>
    Network  <Network/index>
    Git      <Git/index>
+   Algorithm <Algorithm/index>
