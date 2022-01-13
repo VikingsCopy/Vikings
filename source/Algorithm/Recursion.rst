@@ -4,7 +4,7 @@
 
 递归的思想是把一个大问题逐部拆分成一个相似小问题. 拿最常举例的阶乘计算来说,计算 5 的阶乘.
 
-.. thumbnail:: _static/recursion/recursion_5.png
+.. image:: _static/recursion/recursion_5.png
 
 .. code:: c
 
